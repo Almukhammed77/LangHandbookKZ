@@ -1,0 +1,10 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const changeBtn = document.getElementById("changeTextBtn");
+  const textDisplay = document.getElementById("textDisplay");
+
+  if (changeBtn && textDisplay) {
+    changeBtn.addEventListener("click", () => {
+      textDisplay.textContent = "You clicked the button! Enjoy your meal 🥗";
+    });
+  }
+});
