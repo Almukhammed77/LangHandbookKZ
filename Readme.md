@@ -20,7 +20,7 @@ Simple web application where students can:
 - We have skeleton (go.mod + main.go) so `go run .` works.
 - All documents (Proposal, Architecture, Gantt plan) are in this ZIP.
 
-### My part (Almukhammed)
+### My part (Almukhammedd)
 - Wrote Project Proposal
 - Created Git repository
 - Made initial commits and feature/almukhammed branch
