@@ -1,6 +1,6 @@
 # Handbook of Programming Languages
 
-Milestone 3 – Project Design & Setup (Assignment 3)
+Milestone 3 - Project Design & Setup (Assignment 3)
 
 **Team:** LangHandbookKZ  
 **Members:** Almukhammed, Adil, Arman  
