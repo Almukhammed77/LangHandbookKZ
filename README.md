@@ -54,7 +54,6 @@ A simple web application where students can:
 ---
 
 ### Arman
-- Designed **UML diagram**
 - Created **Gantt Plan (Weeks 7–10)**
 - Helped define task distribution between team members
 - Made commits in `feature/arman` branch
