@@ -41,7 +41,6 @@ A simple web application where students can:
 - Created and initialized **Git repository**
 - Prepared **Go project skeleton** (`go.mod`, `main.go`)
 - Made initial commits in `feature/almukhammed` branch
-- Participated in overall project planning
 
 ---
 
@@ -57,3 +56,4 @@ A simple web application where students can:
 - Created **Gantt Plan (Weeks 7–10)**
 - Helped define task distribution between team members
 - Made commits in `feature/arman` branch
+- Participated in overall project planning
