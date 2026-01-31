@@ -52,7 +52,7 @@ func GetLanguageByID(w http.ResponseWriter, r *http.Request) {
 
 	id, err := strconv.Atoi(idStr)
 	if err != nil || id < 1 || id > len(fakeLanguages) {
-		http.Error(w, "Not found", http.StatusNotFound)
+		http.Error(w, "Not found info", http.StatusNotFound)
 		return
 	}
 
