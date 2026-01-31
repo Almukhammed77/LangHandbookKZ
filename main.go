@@ -1,9 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"log"
+	"net/http"
+
+	"github.com/Almukhammed77/LangHandbookKZ/handlers"
+)
 
 func main() {
-	fmt.Println("Handbook of Programming Languages — Milestone 3 skeleton")
-	fmt.Println("This is just planning stage. Full code later.")
-	fmt.Println("My commit from Almukhammed")
+	http.HandleFunc("/api/languages", handlers.LanguagesHandler)
+	http.HandleFunc("/api/languages/", handlers.GetLanguageByID)
+
+	log.Println("Сервер запущен на http://localhost:8080")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
