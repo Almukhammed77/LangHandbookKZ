@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/Almukhammed77/LangHandbookKZ/concurrency"
 	"github.com/Almukhammed77/LangHandbookKZ/models"
 	"github.com/Almukhammed77/LangHandbookKZ/storage"
 )
@@ -48,7 +49,19 @@ func LanguageByIDHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, `{"error":"not found"}`, http.StatusNotFound)
 			return
 		}
-		json.NewEncoder(w).Encode(lang)
+
+		concurrency.AddView(lang.ID)
+
+		response := struct {
+			*models.Language
+			Views int `json:"views"`
+		}{
+			Language: lang,
+			Views:    concurrency.GetViewsCount(lang.ID),
+		}
+
+		json.NewEncoder(w).Encode(response)
+
 	case http.MethodPut:
 		var updated models.Language
 		if err := json.NewDecoder(r.Body).Decode(&updated); err != nil {
