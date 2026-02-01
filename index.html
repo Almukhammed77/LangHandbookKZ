@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>LangHandbookKZ</title>
+    <style>
+        :root {
+            --bg: #fdfbf7;               /* кремовый светлый фон */
+            --card: #ffffff;             /* белые карточки */
+            --accent: #785a46;           /* бискотти (тёмно-коричневый) */
+            --accent-light: #ebb8a3;     /* медовый */
+            --accent-red: #d24136;       /* терракота для удаления */
+            --text: #3a2e27;
+            --muted: #8a7b6f;
+            --border: #e8dfd5;
+            --shadow: rgba(120,90,70,0.08);
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: system-ui, sans-serif;
+            min-height: 100vh;
+            padding: 2.5rem 1rem;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        h1 {
+            text-align: center;
+            color: var(--accent);
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            min-width: 320px;
+            background: white;
+            transition: border 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent-light);
+            box-shadow: 0 0 0 3px rgba(235,184,163,0.2);
+        }
+
+        button {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .btn-search {
+            background: var(--accent);
+            color: white;
+        }
+        .btn-search:hover { background: #5f4735; transform: translateY(-1px); }
+
+        .btn-add {
+            background: var(--accent-light);
+            color: #3a2e27;
+        }
+        .btn-add:hover { background: #d7a58f; transform: translateY(-1px); }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.8rem;
+            box-shadow: 0 6px 20px var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px var(--shadow);
+        }
+
+        .card h3 {
+            color: var(--accent);
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .meta {
+            color: var(--muted);
+            font-size: 1rem;
+            margin: 0.6rem 0;
+        }
+
+        .description {
+            margin: 1.2rem 0;
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin: 1.2rem 0;
+        }
+
+        .tag {
+            background: #fdf2f0;
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid #f9e0db;
+        }
+
+        .card-footer {
+            margin-top: 1.5rem;
+            text-align: right;
+        }
+
+        .btn-delete {
+            background: var(--accent-red);
+            color: white;
+            padding: 0.7rem 1.6rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.25s;
+        }
+
+        .btn-delete:hover {
+            background: #b8352e;
+            transform: translateY(-1px);
+        }
+
+        .form-section {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            box-shadow: 0 6px 20px var(--shadow);
+        }
+
+        .form-section h2 { color: var(--accent); margin-bottom: 1.8rem; font-size: 1.8rem; }
+
+        .form-group { margin-bottom: 1.4rem; }
+
+        label { display: block; margin-bottom: 0.6rem; color: var(--muted); font-weight: 500; }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.9rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        textarea { min-height: 110px; }
+
+        .actions { display: flex; gap: 1rem; margin-top: 1.8rem; }
+
+        .loading {
+            text-align: center;
+            color: var(--muted);
+            font-size: 1.4rem;
+            padding: 5rem 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>LangHandbookKZ</h1>
+
+    <div class="controls">
+        <input type="text" id="search" placeholder="Поиск..." />
+        <button class="btn-search" onclick="search()">Найти</button>
+        <button class="btn-add" onclick="showForm()">+ Новый язык</button>
+    </div>
+
+    <div id="form" class="form-section" style="display:none;">
+        <h2>Добавить язык</h2>
+        <div class="form-group">
+            <label>Название</label>
+            <input id="name" type="text" placeholder="Go, Python..." />
+        </div>
+        <div class="form-group">
+            <label>Год</label>
+            <input id="year" type="number" placeholder="2009" />
+        </div>
+        <div class="form-group">
+            <label>Описание</label>
+            <textarea id="desc" placeholder="Описание языка..."></textarea>
+        </div>
+        <div class="form-group">
+            <label>Популярность (0-10)</label>
+            <input id="pop" type="number" step="0.1" placeholder="9.5" />
+        </div>
+        <div class="form-group">
+            <label>Категории (через запятую)</label>
+            <input id="cats" type="text" placeholder="Concurrency, Веб..." />
+        </div>
+        <div class="actions">
+            <button class="btn-add" onclick="add()">Сохранить</button>
+            <button onclick="hideForm()">Отмена</button>
+        </div>
+    </div>
+
+    <div id="grid" class="grid"></div>
+    <div id="loading" class="loading">Загрузка...</div>
+</div>
+
+<script>
+    const API = 'http://localhost:8080/api';
+
+    async function load(q = '') {
+        document.getElementById('loading').style.display = 'block';
+        try {
+            let url = `${API}/languages`;
+            if (q) url = `${API}/search?q=${encodeURIComponent(q)}`;
+            const r = await fetch(url);
+            if (!r.ok) throw new Error(r.status);
+            const data = await r.json();
+            show(data);
+        } catch (e) {
+            alert('Ошибка: ' + e.message);
+        }
+        document.getElementById('loading').style.display = 'none';
+    }
+
+    function show(langs) {
+        const g = document.getElementById('grid');
+        g.innerHTML = '';
+        if (!langs.length) {
+            g.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--muted);">Ничего не найдено</p>';
+            return;
+        }
+        langs.forEach(l => {
+            const c = document.createElement('div');
+            c.className = 'card';
+            c.innerHTML = `
+      <h3>${l.name}</h3>
+      <div class="meta">Год: ${l.year} • Популярность: ${l.popularity || '—'}</div>
+      <p class="description">${l.description || 'Нет описания'}</p>
+      ${l.categories?.length ? `
+        <div class="card-categories">
+          ${l.categories.map(c => `<span class="tag">${c.name}</span>`).join('')}
+        </div>
+      ` : ''}
+      <div class="card-footer">
+        <button class="btn-delete" onclick="del(${l.id})">Удалить</button>
+      </div>
+    `;
+            g.appendChild(c);
+        });
+    }
+
+    async function del(id) {
+        if (!confirm('Удалить язык?')) return;
+        try {
+            const r = await fetch(`${API}/languages/${id}`, {method: 'DELETE'});
+            if (!r.ok) throw new Error('Ошибка удаления');
+            alert('Удалено');
+            load();
+        } catch (e) {
+            alert('Не удалилось: ' + e.message);
+        }
+    }
+
+    function search() {
+        const q = document.getElementById('search').value.trim();
+        load(q);
+    }
+
+    async function add() {
+        const n = document.getElementById('name').value.trim();
+        const y = parseInt(document.getElementById('year').value);
+        const d = document.getElementById('desc').value.trim();
+        const p = parseFloat(document.getElementById('pop').value);
+        const cs = document.getElementById('cats').value.trim();
+
+        if (!n || isNaN(y)) return alert('Название и год обязательны');
+
+        const cats = cs ? cs.split(',').map(s=>s.trim()).filter(Boolean).map(name=>({name})) : [];
+
+        const body = { name:n, year:y, description:d||undefined, popularity:isNaN(p)?undefined:p, categories:cats };
+
+        try {
+            const r = await fetch(`${API}/languages`, {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify(body)
+            });
+            if (!r.ok) throw new Error('Ошибка');
+            alert('Добавлено');
+            hideForm();
+            load();
+        } catch (e) {
+            alert('Не добавилось: ' + e.message);
+        }
+    }
+
+    function showForm() { document.getElementById('form').style.display = 'block'; }
+    function hideForm() { document.getElementById('form').style.display = 'none'; }
+
+    window.onload = () => load();
+</script>
+</body>
+</html>
