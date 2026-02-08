@@ -17,7 +17,7 @@ func main() {
 	log.Println("The database has been initialized. (langhandbook.db)")
 
 	concurrency.StartViewCounter()
-	log.Println("The background view counter has been started.")
+	log.Println("The background view counters has been started.")
 
 	var count int64
 	storage.DB.Model(&models.Language{}).Count(&count)
