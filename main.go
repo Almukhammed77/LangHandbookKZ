@@ -1,12 +1,10 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
-	"strconv"
-	"strings"
 
 	"github.com/Almukhammed77/LangHandbookKZ/concurrency"
 	"github.com/Almukhammed77/LangHandbookKZ/handlers"
@@ -15,83 +13,78 @@ import (
 )
 
 func main() {
-	storage.CreateLanguage(&models.Language{
-		Name:        "Go",
-		Year:        2009,
-		Description: "Google's statically typed compiled language",
-		Popularity:  9.2,
-		Categories:  []models.Category{{Name: "Системное"}, {Name: "Concurrency"}},
-	})
-
-	storage.CreateLanguage(&models.Language{
-		Name:        "Python",
-		Year:        1991,
-		Description: "General-purpose interpreted language",
-		Popularity:  9.8,
-		Categories:  []models.Category{{Name: "Scripts"}, {Name: "Data Science"}},
-	})
+	storage.InitDB()
+	log.Println("The database has been initialized. (langhandbook.db)")
 
 	concurrency.StartViewCounter()
-	log.Println("The background view counter has been started.")
+	log.Println("The background view counters has been started.")
 
-	// Оборачиваем handlers в CORS
-	http.Handle("/api/languages", cors(http.HandlerFunc(handlers.LanguagesHandler)))
-	http.Handle("/api/languages/", cors(http.HandlerFunc(LanguageByIDWithViewsHandler)))
-	http.Handle("/api/search", cors(http.HandlerFunc(handlers.SearchHandler)))
+	var count int64
+	storage.DB.Model(&models.Language{}).Count(&count)
+	if count == 0 {
+		log.Println("Adding seed languages...")
 
-	// Фронтенд (статические файлы)
-	http.Handle("/", cors(http.FileServer(http.Dir("./static"))))
+		storage.CreateLanguage(&models.Language{
+			Name:        "Go",
+			Year:        2009,
+			Description: "Статически типизированный компилируемый язык от Google",
+			Popularity:  0,
+			Categories:  []models.Category{{Name: "Системное"}, {Name: "Concurrency"}},
+		})
 
-	fmt.Println("server run on http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
-}
+		storage.CreateLanguage(&models.Language{
+			Name:        "Python",
+			Year:        1991,
+			Description: "Интерпретируемый язык общего назначения",
+			Popularity:  0,
+			Categories:  []models.Category{{Name: "Скрипты"}, {Name: "Data Science"}},
+		})
 
-// CORS middleware — простой и правильный
-func cors(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		log.Println("Initial data added")
+	}
 
-		// Для preflight-запросов (OPTIONS) сразу отвечаем OK
-		if r.Method == http.MethodOptions {
-			w.WriteHeader(http.StatusOK)
+	http.HandleFunc("/api/languages", handlers.LanguagesHandler)
+	http.HandleFunc("/api/languages/", handlers.LanguageByIDHandler)
+	http.HandleFunc("/api/search", handlers.SearchHandler)
+	http.HandleFunc("/api/ratings", handlers.RatingsHandler)
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/" {
+			http.NotFound(w, r)
 			return
 		}
 
-		next.ServeHTTP(w, r)
+		langs := storage.GetAllLanguages()
+
+		data := struct {
+			Count     int
+			Languages []*models.Language
+		}{
+			Count:     len(langs),
+			Languages: langs,
+		}
+
+		tmpl := template.Must(template.ParseFiles("templates/index.html.tmpl"))
+		err := tmpl.Execute(w, data)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	})
-}
 
-func LanguageByIDWithViewsHandler(w http.ResponseWriter, r *http.Request) {
-	path := strings.TrimPrefix(r.URL.Path, "/api/languages/")
-	if path == "" {
-		http.Error(w, "ID не указан", http.StatusBadRequest)
-		return
+	cors := func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+			w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+			if r.Method == http.MethodOptions {
+				w.WriteHeader(http.StatusOK)
+				return
+			}
+			next.ServeHTTP(w, r)
+		})
 	}
 
-	id, err := strconv.ParseUint(path, 10, 32)
-	if err != nil {
-		http.Error(w, "Неверный ID", http.StatusBadRequest)
-		return
-	}
-
-	lang := storage.GetLanguageByID(uint(id))
-	if lang == nil {
-		http.Error(w, "Язык не найден", http.StatusNotFound)
-		return
-	}
-
-	concurrency.AddView(lang.ID)
-
-	response := struct {
-		*models.Language
-		Views int `json:"views"`
-	}{
-		Language: lang,
-		Views:    concurrency.GetViewsCount(lang.ID),
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
+	fmt.Println("Server running on → http://localhost:8080")
+	log.Fatal(http.ListenAndServe(":8080", cors(http.DefaultServeMux)))
 }

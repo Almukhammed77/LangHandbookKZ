@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Handbook of programming languages</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f8f9fa; }
+        h1 { color: #2c3e50; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #3498db; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        tr:hover { background-color: #e8f4f8; }
+        .api-link { margin-top: 30px; font-size: 1.1em; }
+    </style>
+</head>
+<body>
+    <h1>Handbook of programming languages</h1>
+    <p>Total languages in the database: <strong>{{.Count}}</strong></p>
+
+    {{if .Languages}}
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Year</th>
+            <th>Popularity</th>
+            <th>Views</th>
+            <th>Categories</th>
+        </tr>
+        {{range .Languages}}
+        <tr>
+            <td>{{.ID}}</td>
+            <td>{{.Name}}</td>
+            <td>{{.Year}}</td>
+            <td>{{printf "%.1f" .Popularity}}</td>
+            <td>{{.Views}}</td>
+            <td>
+                {{range $index, $cat := .Categories}}
+                    {{if $index}}, {{end}}{{$cat.Name}}
+                {{end}}
+            </td>
+        </tr>
+        {{end}}
+    </table>
+    {{else}}
+    <p style="color: #e74c3c; font-size: 1.2em;">В базе пока нет языков.</p>
+    {{end}}
+
+    <p class="api-link">
+        <a href="/api/languages">Go to API: Full list of languages in JSON format</a>
+    </p>
+</body>
+</html>
