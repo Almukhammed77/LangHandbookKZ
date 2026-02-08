@@ -1,80 +1,75 @@
 package storage
 
 import (
-	"sync"
+	"strings"
 
 	"github.com/Almukhammed77/LangHandbookKZ/models"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
-import "strings"
+var DB *gorm.DB
 
-var (
-	languages = make(map[uint]*models.Language)
-	mu        sync.RWMutex
-	nextID    uint = 1
-)
+func InitDB() {
+	db, err := gorm.Open(sqlite.Open("langhandbook.db"), &gorm.Config{})
+	if err != nil {
+		panic("Failed to connect to the database: " + err.Error())
+	}
+	DB = db
+	DB.AutoMigrate(&models.Language{}, &models.Category{}, &models.Rating{})
+}
 
 func CreateLanguage(lang *models.Language) *models.Language {
-	mu.Lock()
-	defer mu.Unlock()
-	lang.ID = nextID
-	nextID++
-	languages[lang.ID] = lang
+	DB.Create(lang)
 	return lang
 }
 
 func GetAllLanguages() []*models.Language {
-	mu.RLock()
-	defer mu.RUnlock()
-	result := make([]*models.Language, 0, len(languages))
-	for _, lang := range languages {
-		result = append(result, lang)
-	}
-	return result
+	var langs []*models.Language
+	DB.Preload("Categories").Find(&langs)
+	return langs
 }
 
 func GetLanguageByID(id uint) *models.Language {
-	mu.RLock()
-	defer mu.RUnlock()
-	return languages[id]
+	var lang models.Language
+	if DB.Preload("Categories").First(&lang, id).Error != nil {
+		return nil
+	}
+	return &lang
 }
 
 func UpdateLanguage(id uint, updated *models.Language) *models.Language {
-	mu.Lock()
-	defer mu.Unlock()
-	if _, exists := languages[id]; !exists {
+	lang := GetLanguageByID(id)
+	if lang == nil {
 		return nil
 	}
-	updated.ID = id
-	languages[id] = updated
-	return updated
+	DB.Model(lang).Updates(updated)
+	return lang
 }
 
 func DeleteLanguage(id uint) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	if _, exists := languages[id]; exists {
-		delete(languages, id)
-		return true
-	}
-	return false
+	return DB.Delete(&models.Language{}, id).Error == nil
 }
 
 func SearchLanguages(query string) []*models.Language {
-	mu.RLock()
-	defer mu.RUnlock()
-	result := make([]*models.Language, 0)
-	for _, lang := range languages {
-		if query == "" ||
-			containsIgnoreCase(lang.Name, query) ||
-			containsIgnoreCase(lang.Description, query) {
-			result = append(result, lang)
-		}
+	var langs []*models.Language
+	tx := DB.Preload("Categories")
+	if query != "" {
+		q := "%" + strings.ToLower(query) + "%"
+		tx = tx.Where("LOWER(name) LIKE ? OR LOWER(description) LIKE ?", q, q).
+			Or("id IN (SELECT language_id FROM language_categories lc JOIN categories c ON lc.category_id = c.id WHERE LOWER(c.name) LIKE ?)", q)
 	}
-	return result
+	tx.Find(&langs)
+	return langs
 }
 
-func containsIgnoreCase(s, substr string) bool {
-	// простая реализация без strings.ToLower для скорости
-	return len(substr) == 0 || strings.Contains(strings.ToLower(s), strings.ToLower(substr))
+func AddRating(rating *models.Rating) {
+	DB.Create(rating)
+	var avg float64
+	DB.Model(&models.Rating{}).Where("language_id = ?", rating.LanguageID).Select("AVG(score)").Scan(&avg)
+	DB.Model(&models.Language{}).Where("id = ?", rating.LanguageID).Update("popularity", avg)
+}
+
+func UpdateViews(langID uint, views int) {
+	DB.Model(&models.Language{}).Where("id = ?", langID).Update("views", views)
 }

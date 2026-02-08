@@ -18,6 +18,7 @@ func LanguagesHandler(w http.ResponseWriter, r *http.Request) {
 	case http.MethodGet:
 		langs := storage.GetAllLanguages()
 		json.NewEncoder(w).Encode(langs)
+
 	case http.MethodPost:
 		var lang models.Language
 		if err := json.NewDecoder(r.Body).Decode(&lang); err != nil {
@@ -27,8 +28,9 @@ func LanguagesHandler(w http.ResponseWriter, r *http.Request) {
 		created := storage.CreateLanguage(&lang)
 		w.WriteHeader(http.StatusCreated)
 		json.NewEncoder(w).Encode(created)
+
 	default:
-		http.Error(w, `{"error":"method not allowed"}`, http.StatusMethodNotAllowed)
+		http.Error(w, `{"error":"method not supported"}`, http.StatusMethodNotAllowed)
 	}
 }
 
@@ -37,21 +39,20 @@ func LanguageByIDHandler(w http.ResponseWriter, r *http.Request) {
 
 	idStr := strings.TrimPrefix(r.URL.Path, "/api/languages/")
 	id, err := strconv.ParseUint(idStr, 10, 32)
-	if err != nil {
+	if err != nil || id == 0 {
 		http.Error(w, `{"error":"invalid ID"}`, http.StatusBadRequest)
+		return
+	}
+
+	lang := storage.GetLanguageByID(uint(id))
+	if lang == nil {
+		http.Error(w, `{"error":"language not found"}`, http.StatusNotFound)
 		return
 	}
 
 	switch r.Method {
 	case http.MethodGet:
-		lang := storage.GetLanguageByID(uint(id))
-		if lang == nil {
-			http.Error(w, `{"error":"not found"}`, http.StatusNotFound)
-			return
-		}
-
 		concurrency.AddView(lang.ID)
-
 		response := struct {
 			*models.Language
 			Views int `json:"views"`
@@ -59,7 +60,6 @@ func LanguageByIDHandler(w http.ResponseWriter, r *http.Request) {
 			Language: lang,
 			Views:    concurrency.GetViewsCount(lang.ID),
 		}
-
 		json.NewEncoder(w).Encode(response)
 
 	case http.MethodPut:
@@ -74,14 +74,16 @@ func LanguageByIDHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		json.NewEncoder(w).Encode(result)
+
 	case http.MethodDelete:
 		if storage.DeleteLanguage(uint(id)) {
 			w.WriteHeader(http.StatusNoContent)
 		} else {
 			http.Error(w, `{"error":"not found"}`, http.StatusNotFound)
 		}
+
 	default:
-		http.Error(w, `{"error":"method not allowed"}`, http.StatusMethodNotAllowed)
+		http.Error(w, `{"error":"method not supported"}`, http.StatusMethodNotAllowed)
 	}
 }
 
@@ -89,11 +91,30 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	if r.Method != http.MethodGet {
-		http.Error(w, `{"error":"method not allowed"}`, http.StatusMethodNotAllowed)
+		http.Error(w, `{"error":"method not supported"}`, http.StatusMethodNotAllowed)
 		return
 	}
 
 	query := r.URL.Query().Get("q")
 	results := storage.SearchLanguages(query)
 	json.NewEncoder(w).Encode(results)
+}
+
+func RatingsHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	if r.Method != http.MethodPost {
+		http.Error(w, `{"error":"method not supported"}`, http.StatusMethodNotAllowed)
+		return
+	}
+
+	var rating models.Rating
+	if err := json.NewDecoder(r.Body).Decode(&rating); err != nil {
+		http.Error(w, `{"error":"ivalid JSON"}`, http.StatusBadRequest)
+		return
+	}
+
+	storage.AddRating(&rating)
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(rating)
 }
