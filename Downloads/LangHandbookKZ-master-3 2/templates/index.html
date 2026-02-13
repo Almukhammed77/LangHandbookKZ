@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Справочник языков программирования</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    {{if .Username}}
+    <div class="user-block">
+      <span class="greeting">Привет, {{.Username}}!</span>
+      <a href="/profile" class="auth-btn profile-btn">
+        <i class="fas fa-user"></i> Профиль
+      </a>
+      <a href="/logout" class="auth-btn logout">Выйти</a>
+    </div>
+    {{else}}
+    <div class="auth-block">
+      <a href="/login" class="auth-btn login">Войти</a>
+      <a href="/register" class="auth-btn register">Регистрация</a>
+    </div>
+    {{end}}
+  </div>
+
+  <h1>Справочник языков программирования</h1>
+  <p class="welcome">Добро пожаловать! Выберите язык для изучения.</p>
+
+  <!-- Оставляем ТОЛЬКО ЭТОТ поисковик (нижний) -->
+  <div class="search-container">
+    <form action="/search" method="GET" class="search-form">
+      <input
+              type="search"
+              name="q"
+              placeholder="Поиск языка (Python, Go, JavaScript...)"
+              class="search-input"
+              autocomplete="off"
+              value="{{.Query}}"
+      >
+      <button type="submit" class="search-btn">
+        <i class="fas fa-search"></i>
+      </button>
+    </form>
+  </div>
+
+  {{if .Query}}
+  <h2 class="search-title">Результаты поиска по: <span>"{{.Query}}"</span></h2>
+  {{end}}
+
+  <div class="languages">
+    {{range .Languages}}
+    <div class="card">
+      <h3>{{.Name}} ({{.Year}})</h3>
+      <p>{{.Description}}</p>
+      <p>Популярность: {{.Popularity}} | Просмотры: {{.Views}}</p>
+      <a href="/language/{{.ID}}" class="btn">Подробнее →</a>
+    </div>
+    {{else}}
+    <p style="text-align:center; color:var(--gray); grid-column: 1 / -1; font-size:1.2rem;">
+      Ничего не найдено по запросу "{{.Query}}"
+    </p>
+    {{end}}
+  </div>
+</div>
+</body>
+</html>
