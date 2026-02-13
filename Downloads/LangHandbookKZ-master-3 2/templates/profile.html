@@ -29,126 +29,337 @@
     }
     .container { max-width: 1200px; margin: 0 auto; }
 
+    /* Исправленный header с логотипом слева */
     .header {
-      display: flex; justify-content: flex-end; align-items: center;
-      margin-bottom: 40px; padding: 16px 32px;
-      background: rgba(255,255,255,0.75); backdrop-filter: blur(16px);
-      border-radius: 60px; box-shadow: var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      padding: 12px 24px;
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(16px);
+      border-radius: 60px;
+      box-shadow: var(--shadow);
     }
-    .user-block { display: flex; align-items: center; gap: 20px; }
+
+    /* Стили для логотипа */
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      padding: 8px 20px;
+      border-radius: 40px;
+      transition: all 0.3s ease;
+    }
+
+    .logo-link:hover {
+      background: rgba(99, 102, 241, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .logo-icon {
+      font-size: 2rem;
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .user-block {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
     .nav-link {
-      text-decoration: none; color: var(--gray); font-weight: 500;
-      padding: 8px 16px; border-radius: 30px;
+      text-decoration: none;
+      color: var(--gray);
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 30px;
+      transition: all 0.3s ease;
     }
-    .nav-link:hover { color: var(--primary); background: rgba(99,102,241,0.1); }
-    .nav-link.active { background: var(--gradient); color: white; }
+
+    .nav-link:hover {
+      color: var(--primary);
+      background: rgba(99,102,241,0.1);
+    }
+
+    .nav-link.active {
+      background: var(--gradient);
+      color: white;
+    }
+
     .logout-btn {
-      padding: 10px 22px; border-radius: 30px; text-decoration: none;
-      font-weight: 600; background: #ef4444; color: white;
+      padding: 10px 22px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      background: #ef4444;
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      transform: translateY(-2px);
+      background: #dc2626;
+      box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
     }
 
     .profile-grid {
-      display: grid; grid-template-columns: 350px 1fr; gap: 30px;
+      display: grid;
+      grid-template-columns: 350px 1fr;
+      gap: 30px;
     }
 
     .profile-sidebar {
-      background: white; border-radius: var(--border-radius);
-      padding: 30px; box-shadow: var(--shadow);
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 30px;
+      box-shadow: var(--shadow);
     }
 
     .avatar {
-      width: 150px; height: 150px; border-radius: 50%;
-      background: var(--gradient); margin: 0 auto 20px;
-      display: flex; align-items: center; justify-content: center;
-      color: white; font-size: 4rem;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: var(--gradient);
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 4rem;
     }
 
-    h1 { font-size: 2rem; text-align: center; margin-bottom: 5px; }
-    .username { color: var(--gray); text-align: center; margin-bottom: 20px; }
+    h1 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    .username {
+      color: var(--gray);
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
     .role-badge {
-      display: inline-block; padding: 6px 16px; border-radius: 30px;
-      font-size: 0.85rem; font-weight: 700; margin: 10px auto;
-      text-align: center; width: fit-content;
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin: 10px auto;
+      text-align: center;
+      width: fit-content;
     }
-    .role-admin { background: #ef4444; color: white; }
-    .role-user { background: var(--primary); color: white; }
+
+    .role-admin {
+      background: #ef4444;
+      color: white;
+    }
+
+    .role-user {
+      background: var(--primary);
+      color: white;
+    }
 
     .profile-stats {
-      display: flex; justify-content: space-around; margin: 25px 0;
-      padding: 20px 0; border-top: 1px solid rgba(100,116,139,0.1);
+      display: flex;
+      justify-content: space-around;
+      margin: 25px 0;
+      padding: 20px 0;
+      border-top: 1px solid rgba(100,116,139,0.1);
       border-bottom: 1px solid rgba(100,116,139,0.1);
     }
-    .stat-item { text-align: center; }
-    .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
-    .stat-label { font-size: 0.85rem; color: var(--gray); text-transform: uppercase; }
 
-    .level-info { margin: 20px 0; }
-    .level-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--gray);
+      text-transform: uppercase;
+    }
+
+    .level-info {
+      margin: 20px 0;
+    }
+
+    .level-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
     .level-badge {
-      background: var(--gradient); color: white; padding: 4px 12px;
-      border-radius: 20px; font-weight: 600; font-size: 0.9rem;
+      background: var(--gradient);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
     }
 
     .profile-main {
-      background: white; border-radius: var(--border-radius);
-      padding: 30px; box-shadow: var(--shadow);
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 30px;
+      box-shadow: var(--shadow);
     }
 
     .tabs {
-      display: flex; gap: 20px; margin-bottom: 30px;
-      border-bottom: 1px solid rgba(100,116,139,0.1); padding-bottom: 15px;
+      display: flex;
+      gap: 20px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid rgba(100,116,139,0.1);
+      padding-bottom: 15px;
     }
+
     .tab {
-      padding: 10px 20px; border-radius: 30px; cursor: pointer;
-      font-weight: 600; color: var(--gray);
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--gray);
     }
-    .tab:hover { color: var(--primary); background: rgba(99,102,241,0.1); }
-    .tab.active { background: var(--gradient); color: white; }
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
+
+    .tab:hover {
+      color: var(--primary);
+      background: rgba(99,102,241,0.1);
+    }
+
+    .tab.active {
+      background: var(--gradient);
+      color: white;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
 
     .info-item {
-      padding: 15px; background: var(--light); border-radius: 12px;
-      margin-bottom: 15px; display: flex; align-items: center; gap: 15px;
+      padding: 15px;
+      background: var(--light);
+      border-radius: 12px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
-    .info-item i { color: var(--primary); font-size: 1.2rem; width: 30px; }
 
-    .form-group { margin-bottom: 20px; }
+    .info-item i {
+      color: var(--primary);
+      font-size: 1.2rem;
+      width: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
     .form-group label {
-      display: block; font-weight: 600; margin-bottom: 8px; color: var(--dark);
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--dark);
     }
+
     .form-control {
-      width: 100%; padding: 14px 18px; border: 2px solid rgba(203,213,225,0.5);
-      border-radius: 12px; font-size: 1rem; font-family: 'Inter', sans-serif;
+      width: 100%;
+      padding: 14px 18px;
+      border: 2px solid rgba(203,213,225,0.5);
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
     }
-    .form-control:focus { border-color: var(--primary); outline: none; }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
 
     .btn {
-      padding: 14px 28px; border: none; border-radius: 40px;
-      font-weight: 600; cursor: pointer; font-size: 1rem;
-      background: var(--gradient); color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+      background: var(--gradient);
+      color: white;
     }
-    .btn:hover { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(99,102,241,0.3); }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(99,102,241,0.3);
+    }
 
     .alert {
-      padding: 16px 20px; border-radius: 12px; margin-bottom: 25px;
-      display: flex; align-items: center; gap: 12px;
+      padding: 16px 20px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
-    .alert-success { background: rgba(16,185,129,0.1); border-left: 4px solid #10b981; color: #065f46; }
-    .alert-error { background: rgba(239,68,68,0.1); border-left: 4px solid #ef4444; color: #b91c1c; }
+
+    .alert-success {
+      background: rgba(16,185,129,0.1);
+      border-left: 4px solid #10b981;
+      color: #065f46;
+    }
+
+    .alert-error {
+      background: rgba(239,68,68,0.1);
+      border-left: 4px solid #ef4444;
+      color: #b91c1c;
+    }
 
     @media (max-width: 768px) {
-      .profile-grid { grid-template-columns: 1fr; }
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
 <div class="container">
   <div class="header">
+    <!-- Логотип слева -->
+    <div class="logo">
+      <a href="/" class="logo-link">
+        <span class="logo-icon">📚</span>
+        <span class="logo-text">Lang Hand Book</span>
+      </a>
+    </div>
+
+    <!-- Навигация справа (убрана кнопка Профиль) -->
     <div class="user-block">
       <a href="/" class="nav-link">Главная</a>
-      <a href="/profile" class="nav-link active">Профиль</a>
       <a href="/logout" class="logout-btn">Выйти</a>
     </div>
   </div>

@@ -56,6 +56,52 @@ body {
     margin-right: auto;
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 40px;
+    transition: all 0.3s ease;
+}
+
+.logo-link:hover {
+    background: rgba(99, 102, 241, 0.1);
+    transform: translateY(-2px);
+}
+
+.logo-icon {
+    font-size: 1.8rem;
+}
+
+.logo-text {
+    font-size: 1.4rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+}
+
+.profile-btn {
+    background: var(--primary);
+    color: white;
+    margin-right: 10px;
+}
+
+.profile-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
+}
+
+
 .search-form {
     display: flex;
     align-items: center;
@@ -660,22 +706,6 @@ h1 {
     font-size: 1.05rem;
 }
 
-.back-btn {
-    display: inline-block;
-    margin-top: 40px;
-    padding: 14px 28px;
-    background: var(--gradient);
-    color: white;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.back-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
-}
 
 /* Адаптивность */
 @media (max-width: 768px) {
@@ -745,18 +775,20 @@ h1 {
     display: block;
     margin-top: 30px;
     padding: 12px 20px;
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-    color: white;
+    background: linear-gradient(135deg, #6366f1, #4f46e5) !important;
+    color: white !important;
     border-radius: 30px;
     text-decoration: none;
     font-weight: 600;
     text-align: center;
     transition: all 0.3s;
+    border: none;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.96);
 }
 
 .back-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.5);
 }
 
 .tutorial-content {
@@ -802,14 +834,3 @@ h1 {
     }
 }
 
-.profile-btn {
-    background: var(--primary);
-    color: white;
-    margin-right: 10px;
-}
-
-.profile-btn:hover {
-    background: var(--primary-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
-}

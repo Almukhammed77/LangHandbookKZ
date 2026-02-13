@@ -8,8 +8,163 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="/static/style.css">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --primary-light: #a5b4fc;
+      --secondary: #14b8a6;
+      --accent: #f59e0b;
+      --dark: #0f172a;
+      --gray: #64748b;
+      --light: #f1f5f9;
+      --white: #ffffff;
+      --gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+      --shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.1);
+      --border-radius: 20px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #f9fafc 0%, #f1f5f9 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      border-radius: 60px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      padding: 8px 20px;
+      border-radius: 40px;
+      transition: all 0.3s ease;
+    }
+
+    .logo-link:hover {
+      background: rgba(99, 102, 241, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .logo-icon {
+      font-size: 2rem;
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .auth-block {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-block {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .greeting {
+      font-weight: 600;
+      color: var(--dark);
+      font-size: 0.95rem;
+    }
+
+    .auth-btn {
+      padding: 10px 22px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .login {
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--primary);
+      border: 1px solid var(--primary-light);
+    }
+
+    .login:hover {
+      background: rgba(99, 102, 241, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .register {
+      background: var(--gradient);
+      color: white;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .register:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.5);
+    }
+
+    .logout {
+      background: #ef4444;
+      color: white;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+
+    .logout:hover {
+      transform: translateY(-3px);
+      background: #dc2626;
+      box-shadow: 0 10px 25px rgba(239, 68, 68, 0.5);
+    }
+
+    .profile-btn {
+      background: var(--primary);
+      color: white;
+    }
+
+    .profile-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
+    }
+
     .tutorial-grid {
       display: grid;
       grid-template-columns: 280px 1fr;
@@ -22,7 +177,7 @@
       backdrop-filter: blur(10px);
       border-radius: 20px;
       padding: 30px;
-      box-shadow: 0 20px 35px -8px rgba(0,0,0,0.1);
+      box-shadow: var(--shadow);
       position: sticky;
       top: 100px;
       height: fit-content;
@@ -31,7 +186,7 @@
     .sidebar h3 {
       font-size: 1.6rem;
       margin-bottom: 24px;
-      color: #0f172a;
+      color: var(--dark);
     }
 
     .sidebar ul {
@@ -43,7 +198,7 @@
     }
 
     .sidebar a {
-      color: #64748b;
+      color: var(--gray);
       text-decoration: none;
       font-weight: 500;
       display: block;
@@ -54,11 +209,11 @@
 
     .sidebar a:hover {
       background: rgba(99, 102, 241, 0.1);
-      color: #6366f1;
+      color: var(--primary);
     }
 
     .sidebar a.active {
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      background: var(--gradient);
       color: white;
       font-weight: 600;
     }
@@ -67,7 +222,7 @@
       background: white;
       border-radius: 20px;
       padding: 40px;
-      box-shadow: 0 20px 35px -8px rgba(0,0,0,0.1);
+      box-shadow: var(--shadow);
     }
 
     .tutorial-content h1 {
@@ -103,18 +258,19 @@
       display: block;
       margin-top: 30px;
       padding: 12px 20px;
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      background: var(--gradient);
       color: white;
       border-radius: 30px;
       text-decoration: none;
       font-weight: 600;
       text-align: center;
       transition: all 0.3s;
+      box-shadow: 0 4px 12px rgb(255, 255, 255);
     }
 
     .back-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
+      box-shadow: 0 8px 20px rgb(255, 255, 255);
     }
 
     @media (max-width: 1024px) {
@@ -131,24 +287,32 @@
 <body>
 <div class="container">
   <div class="header">
-    {{if .Username}}
-    <div class="user-block">
-      <span class="greeting">Привет, {{.Username}}!</span>
-      <a href="/profile" class="auth-btn" style="background: var(--primary); color: white; margin-right: 10px;">
-        <i class="fas fa-user"></i> Профиль
+    <div class="logo">
+      <a href="/" class="logo-link">
+        <span class="logo-icon">📚</span>
+        <span class="logo-text">Lang Hand Book</span>
       </a>
-      <a href="/logout" class="auth-btn logout">Выйти</a>
     </div>
-    {{else}}
+
     <div class="auth-block">
-      <a href="/login" class="auth-btn login">Войти</a>
-      <a href="/register" class="auth-btn register">Регистрация</a>
+      {{if .Username}}
+      <div class="user-block">
+        <span class="greeting">Привет, {{.Username}}!</span>
+        <a href="/profile" class="auth-btn profile-btn">
+          <i class="fas fa-user"></i> Профиль
+        </a>
+        <a href="/logout" class="auth-btn logout">Выйти</a>
+      </div>
+      {{else}}
+      <div class="auth-block">
+        <a href="/login" class="auth-btn login">Войти</a>
+        <a href="/register" class="auth-btn register">Регистрация</a>
+      </div>
+      {{end}}
     </div>
-    {{end}}
   </div>
 
   <div class="tutorial-grid">
-    <!-- Боковая панель навигации -->
     <nav class="sidebar">
       <h3>{{.Language.Name}} Tutorial</h3>
       <ul>
@@ -161,10 +325,9 @@
         </li>
         {{end}}
       </ul>
-      <a href="/" class="back-btn">← Назад к справочнику</a>
+      <a href="/" class="back-btn" style="display: inline-block; margin-top: 20px; padding: 6px 16px; background: white; color: #6366f1; border-radius: 20px; text-decoration: none; font-weight: 500; font-size: 0.85rem; text-align: center; transition: all 0.3s; border: 1px solid #6366f1;">← Назад к справочнику</a>
     </nav>
 
-    <!-- Основной контент -->
     <main class="tutorial-content">
       <h1>{{.SectionTitle}}</h1>
       <div class="stats">
