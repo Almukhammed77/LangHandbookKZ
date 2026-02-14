@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Справочник языков программирования</title>
+  <title>LangHandbookKZ - Изучай языки программирования</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -33,10 +33,9 @@
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Inter', sans-serif;
       background: linear-gradient(145deg, #f9fafc 0%, #f1f5f9 100%);
       color: var(--dark);
-      line-height: 1.6;
       min-height: 100vh;
       padding: 40px 20px;
     }
@@ -46,25 +45,23 @@
       margin: 0 auto;
     }
 
-    .header {
+    /* Навбар в стиле профиля */
+    .navbar {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      padding: 12px 24px;
+      border-radius: 60px;
+      box-shadow: var(--shadow);
+      margin-bottom: 40px;
+    }
+
+    .nav-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 40px;
-      padding: 12px 24px;
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(16px);
-      border-radius: 60px;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid rgba(255, 255, 255, 0.4);
     }
 
     .logo {
-      display: flex;
-      align-items: center;
-    }
-
-    .logo-link {
       display: flex;
       align-items: center;
       gap: 10px;
@@ -74,7 +71,7 @@
       transition: all 0.3s ease;
     }
 
-    .logo-link:hover {
+    .logo:hover {
       background: rgba(99, 102, 241, 0.1);
       transform: translateY(-2px);
     }
@@ -92,210 +89,268 @@
       letter-spacing: -0.5px;
     }
 
-    .auth-block {
+    .nav-links {
       display: flex;
+      gap: 2rem;
       align-items: center;
-      gap: 15px;
     }
 
-    .user-block {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .greeting {
-      font-weight: 600;
-      color: var(--dark);
-      font-size: 0.95rem;
-    }
-
-    .auth-btn {
-      padding: 10px 22px;
-      border-radius: 30px;
+    .nav-links a {
       text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      white-space: nowrap;
+      color: var(--gray);
+      font-weight: 500;
+      transition: all 0.3s;
+      padding: 8px 16px;
+      border-radius: 30px;
     }
 
-    .login {
-      background: rgba(99, 102, 241, 0.1);
+    .nav-links a:hover {
       color: var(--primary);
-      border: 1px solid var(--primary-light);
+      background: rgba(99, 102, 241, 0.1);
     }
 
-    .login:hover {
-      background: rgba(99, 102, 241, 0.2);
-      transform: translateY(-2px);
-    }
-
-    .register {
-      background: var(--gradient);
-      color: white;
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-    }
-
-    .register:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.5);
-    }
-
-    .logout {
-      background: #ef4444;
-      color: white;
-      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-    }
-
-    .logout:hover {
-      transform: translateY(-3px);
-      background: #dc2626;
-      box-shadow: 0 10px 25px rgba(239, 68, 68, 0.5);
-    }
-
-    .profile-btn {
-      background: var(--primary);
-      color: white;
-    }
-
-    .profile-btn:hover {
-      background: var(--primary-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
-    }
-
-    h1 {
+    /* Заголовок страницы */
+    .page-title {
+      color: var(--dark);
+      font-size: 2.5rem;
+      margin-bottom: 30px;
       text-align: center;
-      font-size: 3.2rem;
       font-weight: 800;
-      margin-bottom: 15px;
       background: var(--gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -1px;
     }
 
-    .welcome {
-      text-align: center;
-      font-size: 1.25rem;
+    /* Категории */
+    .categories-section {
+      margin-bottom: 25px;
+    }
+
+    .section-label {
       color: var(--gray);
-      margin-bottom: 60px;
-      position: relative;
-      padding-bottom: 20px;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
 
-    .search-container {
-      max-width: 600px;
-      margin: 0 auto 40px;
+    .categories-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
     }
 
-    .search-form {
+    .category-btn {
+      padding: 10px 20px;
+      background: white;
+      border: none;
+      border-radius: 30px;
+      color: var(--dark);
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s;
+      box-shadow: var(--shadow-sm);
+      font-size: 0.95rem;
+    }
+
+    .category-btn:hover {
+      transform: translateY(-2px);
+      background: var(--gradient);
+      color: white;
+      box-shadow: 0 15px 30px -8px rgba(99, 102, 241, 0.5);
+    }
+
+    .category-btn.active {
+      background: var(--gradient);
+      color: white;
+      box-shadow: 0 15px 30px -8px rgba(99, 102, 241, 0.5);
+    }
+
+    /* Разделители */
+    .section-divider {
+      margin: 25px 0;
+      border-top: 1px dashed rgba(100,116,139,0.2);
+    }
+
+    /* Сортировка */
+    .sort-bar {
+      background: white;
+      border-radius: 50px;
+      padding: 15px 25px;
+      margin-bottom: 30px;
       display: flex;
       align-items: center;
-      position: relative;
-    }
-
-    .search-input {
-      width: 100%;
-      padding: 16px 24px 16px 56px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 50px;
-      background: white;
+      gap: 20px;
+      flex-wrap: wrap;
       box-shadow: var(--shadow);
-      color: var(--dark);
-      transition: all 0.3s ease;
     }
 
-    .search-input:focus {
-      outline: none;
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
-    }
-
-    .search-btn {
-      position: absolute;
-      left: 12px;
-      background: transparent;
-      border: none;
+    .sort-label {
       color: var(--gray);
-      font-size: 1.2rem;
-      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    .search-title {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 1.5rem;
-      color: var(--dark);
+    .sort-options {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
-    .languages {
+    .sort-option {
+      padding: 8px 20px;
+      border: 2px solid var(--light);
+      border-radius: 30px;
+      text-decoration: none;
+      color: var(--gray);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .sort-option:hover {
+      background: var(--gradient);
+      color: white;
+      border-color: transparent;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+    }
+
+    .sort-option.active {
+      background: var(--gradient);
+      color: white;
+      border-color: transparent;
+    }
+
+    /* Результаты */
+    .results-count {
+      color: var(--gray);
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .languages-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 30px;
-      margin-top: 20px;
+      gap: 25px;
     }
 
-    .card {
-      background: rgba(255, 255, 255, 0.9);
+    .language-card {
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
       border-radius: var(--border-radius);
-      padding: 30px;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      border: 1px solid rgba(255, 255, 255, 0.5);
+      padding: 25px;
       box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
+      transition: all 0.4s;
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .card:hover {
-      transform: translateY(-12px) scale(1.02);
+    .language-card:hover {
+      transform: translateY(-8px);
       box-shadow: var(--shadow-lg);
-      border-color: rgba(99, 102, 241, 0.3);
       background: white;
     }
 
-    .card h3 {
-      margin: 0 0 15px;
-      font-size: 1.8rem;
+    .language-name {
+      font-size: 1.5rem;
       font-weight: 700;
       color: var(--dark);
+      margin-bottom: 12px;
       transition: color 0.3s;
     }
 
-    .card:hover h3 {
+    .language-card:hover .language-name {
       background: var(--gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .card p {
-      margin: 10px 0;
+    .badge-container {
+      margin-bottom: 15px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+
+    .badge.category {
+      background: #e0e7ff;
+      color: #4f46e5;
+    }
+
+    .badge.difficulty-beginner {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .badge.difficulty-intermediate {
+      background: #fed7aa;
+      color: #92400e;
+    }
+
+    .badge.difficulty-advanced {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .language-description {
       color: var(--gray);
-      font-size: 1rem;
-      line-height: 1.7;
+      margin: 15px 0;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+      padding: 15px 0;
+      border-top: 1px dashed rgba(100,116,139,0.2);
+      border-bottom: 1px dashed rgba(100,116,139,0.2);
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-number {
+      font-weight: 700;
+      color: var(--dark);
+      margin-top: 4px;
     }
 
     .btn {
-      display: inline-block;
+      display: block;
+      width: 100%;
+      padding: 12px;
       background: var(--gradient);
       color: white;
-      padding: 14px 24px;
-      border-radius: 40px;
       text-decoration: none;
+      border-radius: 40px;
+      text-align: center;
       font-weight: 600;
-      margin-top: 5px;
-      transition: all 0.3s ease;
+      transition: all 0.3s;
       border: none;
       cursor: pointer;
-      font-size: 0.95rem;
-      text-align: center;
-      align-self: flex-start;
     }
 
     .btn:hover {
@@ -303,84 +358,196 @@
       box-shadow: 0 15px 30px -8px rgba(99, 102, 241, 0.5);
     }
 
+    .no-results {
+      text-align: center;
+      padding: 60px;
+      background: rgba(255,255,255,0.95);
+      border-radius: var(--border-radius);
+      color: var(--gray);
+      grid-column: 1 / -1;
+      box-shadow: var(--shadow);
+    }
+
+    .no-results h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: var(--dark);
+    }
+
+    /* Адаптивность */
     @media (max-width: 768px) {
       body {
         padding: 20px 15px;
       }
 
-      h1 {
-        font-size: 2.2rem;
+      .navbar {
+        padding: 10px 16px;
       }
 
-      .languages {
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .logo-text {
+        font-size: 1.2rem;
+      }
+
+      .page-title {
+        font-size: 2rem;
+      }
+
+      .sort-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        border-radius: 20px;
+      }
+
+      .languages-grid {
         grid-template-columns: 1fr;
       }
+    }
+
+    @media (max-width: 480px) {
+      .categories-grid {
+        justify-content: center;
+      }
+
+      .sort-options {
+        justify-content: center;
+      }
+    }
+
+    /* Анимации */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .language-card {
+      animation: fadeInUp 0.5s ease;
     }
   </style>
 </head>
 <body>
 <div class="container">
-  <div class="header">
-    <div class="logo">
-      <a href="/" class="logo-link">
+  <!-- Навбар в стиле профиля -->
+  <div class="navbar">
+    <div class="nav-container">
+      <a href="/" class="logo">
         <span class="logo-icon">📚</span>
         <span class="logo-text">Lang Hand Book</span>
       </a>
-    </div>
-
-    <div class="auth-block">
-      {{if .Username}}
-      <div class="user-block">
-        <span class="greeting">Привет, {{.Username}}!</span>
-        <a href="/profile" class="auth-btn profile-btn">
-          <i class="fas fa-user"></i> Профиль
+      <div class="nav-links">
+        <a href="/top" class="{{if eq .CurrentPage "top"}}active{{end}}">
+        <i class="fas fa-trophy"></i> ТОП-20
         </a>
-        <a href="/logout" class="auth-btn logout">Выйти</a>
+        {{if .Username}}
+        <a href="/profile"><i class="fas fa-user"></i> {{.Username}}</a>
+        <a href="/logout"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+        {{else}}
+        <a href="/login"><i class="fas fa-sign-in-alt"></i> Войти</a>
+        <a href="/register"><i class="fas fa-user-plus"></i> Регистрация</a>
+        {{end}}
       </div>
-      {{else}}
-      <div class="auth-block">
-        <a href="/login" class="auth-btn login">Войти</a>
-        <a href="/register" class="auth-btn register">Регистрация</a>
-      </div>
+    </div>
+  </div>
+
+  <h1 class="page-title">📚 Языки программирования</h1>
+
+  <!-- Категории - первый ряд -->
+  <div class="categories-section">
+    <div class="section-label"><i class="fas fa-tags"></i> Категории:</div>
+    <div class="categories-grid">
+      <a href="/" class="category-btn {{if eq .SelectedCat ""}}active{{end}}">Все</a>
+      {{range .Categories}}
+      <a href="/?category={{.Name}}{{if $.SelectedDiff}}&difficulty={{$.SelectedDiff}}{{end}}{{if $.CurrentSort}}&sort={{$.CurrentSort}}{{end}}"
+         class="category-btn {{if eq $.SelectedCat .Name}}active{{end}}">
+        {{.Icon}} {{.Name}}
+      </a>
       {{end}}
     </div>
   </div>
 
-  <h1>Справочник языков программирования</h1>
-  <p class="welcome">Добро пожаловать! Выберите язык для изучения.</p>
-
-  <div class="search-container">
-    <form action="/search" method="GET" class="search-form">
-      <button type="submit" class="search-btn">
-        <i class="fas fa-search"></i>
-      </button>
-      <input
-              type="search"
-              name="q"
-              placeholder="Поиск языка (Python, Go, JavaScript...)"
-              class="search-input"
-              autocomplete="off"
-              value="{{.Query}}"
-      >
-    </form>
+  <!-- Сложность - второй ряд -->
+  <div class="categories-section">
+    <div class="section-label"><i class="fas fa-chart-line"></i> Сложность:</div>
+    <div class="categories-grid">
+      <a href="/?{{if .SelectedCat}}category={{.SelectedCat}}&{{end}}{{if .CurrentSort}}sort={{.CurrentSort}}{{end}}"
+         class="category-btn {{if eq .SelectedDiff ""}}active{{end}}">Все</a>
+      <a href="/?difficulty=Beginner{{if .SelectedCat}}&category={{.SelectedCat}}{{end}}{{if .CurrentSort}}&sort={{.CurrentSort}}{{end}}"
+         class="category-btn {{if eq .SelectedDiff "Beginner"}}active{{end}}">🌱 Beginner</a>
+      <a href="/?difficulty=Intermediate{{if .SelectedCat}}&category={{.SelectedCat}}{{end}}{{if .CurrentSort}}&sort={{.CurrentSort}}{{end}}"
+         class="category-btn {{if eq .SelectedDiff "Intermediate"}}active{{end}}">📚 Intermediate</a>
+      <a href="/?difficulty=Advanced{{if .SelectedCat}}&category={{.SelectedCat}}{{end}}{{if .CurrentSort}}&sort={{.CurrentSort}}{{end}}"
+         class="category-btn {{if eq .SelectedDiff "Advanced"}}active{{end}}">🚀 Advanced</a>
+    </div>
   </div>
 
-  {{if .Query}}
-  <h2 class="search-title">Результаты поиска по: <span>"{{.Query}}"</span></h2>
-  {{end}}
+  <div class="section-divider"></div>
 
-  <div class="languages">
+  <!-- Сортировка -->
+  <div class="sort-bar">
+    <span class="sort-label"><i class="fas fa-sort"></i> Сортировать по:</span>
+    <div class="sort-options">
+      <a href="?{{if .SelectedCat}}category={{.SelectedCat}}&{{end}}{{if .SelectedDiff}}difficulty={{.SelectedDiff}}&{{end}}sort=popularity"
+         class="sort-option {{if eq .CurrentSort "popularity"}}active{{end}}"><i class="fas fa-fire"></i> Популярности</a>
+      <a href="?{{if .SelectedCat}}category={{.SelectedCat}}&{{end}}{{if .SelectedDiff}}difficulty={{.SelectedDiff}}&{{end}}sort=rating"
+         class="sort-option {{if eq .CurrentSort "rating"}}active{{end}}"><i class="fas fa-star"></i> Рейтингу</a>
+      <a href="?{{if .SelectedCat}}category={{.SelectedCat}}&{{end}}{{if .SelectedDiff}}difficulty={{.SelectedDiff}}&{{end}}sort=name"
+         class="sort-option {{if eq .CurrentSort "name"}}active{{end}}"><i class="fas fa-sort-alpha-down"></i> А-Я</a>
+      <a href="?{{if .SelectedCat}}category={{.SelectedCat}}&{{end}}{{if .SelectedDiff}}difficulty={{.SelectedDiff}}&{{end}}sort=name_desc"
+         class="sort-option {{if eq .CurrentSort "name_desc"}}active{{end}}"><i class="fas fa-sort-alpha-up"></i> Я-А</a>
+      <a href="?{{if .SelectedCat}}category={{.SelectedCat}}&{{end}}{{if .SelectedDiff}}difficulty={{.SelectedDiff}}&{{end}}sort=salary"
+         class="sort-option {{if eq .CurrentSort "salary"}}active{{end}}"><i class="fas fa-dollar-sign"></i> Зарплате</a>
+      <a href="?{{if .SelectedCat}}category={{.SelectedCat}}&{{end}}{{if .SelectedDiff}}difficulty={{.SelectedDiff}}&{{end}}sort=newest"
+         class="sort-option {{if eq .CurrentSort "newest"}}active{{end}}"><i class="fas fa-clock"></i> Новые</a>
+    </div>
+  </div>
+
+  <!-- Количество результатов -->
+  <div class="results-count">
+    <i class="fas fa-database"></i> Найдено языков: {{len .Languages}}
+  </div>
+
+  <!-- Результаты -->
+  <div class="languages-grid" id="results">
     {{range .Languages}}
-    <div class="card">
-      <h3>{{.Name}} ({{.Year}})</h3>
-      <p>{{.Description}}</p>
-      <p>Популярность: {{.Popularity}} | Просмотры: {{.Views}}</p>
-      <a href="/language/{{.ID}}" class="btn">Подробнее →</a>
+    <div class="language-card">
+      <h3 class="language-name">{{.Name}}</h3>
+      <div class="badge-container">
+        {{range .Categories}}
+        <span class="badge category">{{.Icon}} {{.Name}}</span>
+        {{end}}
+        <span class="badge difficulty-{{.Difficulty}}">{{.Difficulty}}</span>
+      </div>
+      <p class="language-description">{{.Description}}</p>
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-label">Просмотры</div>
+          <div class="stat-number">{{.Views}}</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Рейтинг</div>
+          <div class="stat-number">⭐ {{.Rating}}</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Зарплата</div>
+          <div class="stat-number">${{.SalaryAvg}}K</div>
+        </div>
+      </div>
+      <a href="/language/{{.ID}}" class="btn">Изучить →</a>
     </div>
     {{else}}
-    <p style="text-align:center; color:var(--gray); grid-column: 1 / -1; font-size:1.2rem;">
-      Ничего не найдено по запросу "{{.Query}}"
-    </p>
+    <div class="no-results">
+      <h3>😕 Языки не найдены</h3>
+      <p>Попробуйте изменить параметры фильтрации</p>
+    </div>
     {{end}}
   </div>
 </div>
